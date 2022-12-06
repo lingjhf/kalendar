@@ -23,6 +23,15 @@ abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
     this.dates = dates;
   }
 
+  @override
+  void updateOptionalDateMap() {
+    var map = <DateTime, bool>{};
+    for (var date in widget.optionalDates) {
+      map[DateTime(date.year, date.month)] = true;
+    }
+    optionalDateMap = map;
+  }
+
   void onYearPick() {
     setState(() {
       mode = KalendarMode.year;
