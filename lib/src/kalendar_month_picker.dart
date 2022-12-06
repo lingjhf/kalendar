@@ -41,15 +41,6 @@ class _KalendarMonthPickerState
     updateCurrentDate();
   }
 
-  @override
-  void updateOptionalDateMap() {
-    var map = <DateTime, bool>{};
-    for (var date in widget.optionalDates) {
-      map[DateTime(date.year, date.month)] = true;
-    }
-    optionalDateMap = map;
-  }
-
   void updateCurrentDate() {
     if (widget.currentDate != null) {
       currentDate = DateUtils.dateOnly(widget.currentDate!);
