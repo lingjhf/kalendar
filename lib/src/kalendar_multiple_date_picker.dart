@@ -43,7 +43,7 @@ class _KalendarMultipleDatePickerState
   void updateCurrentDates() {
     var map = <DateTime, bool>{};
     for (var date in dates) {
-      currentDates[DateUtils.dateOnly(date)] = true;
+      map[DateUtils.dateOnly(date)] = true;
     }
     currentDates = map;
   }
