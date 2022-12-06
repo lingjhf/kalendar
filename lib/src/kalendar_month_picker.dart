@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'base.dart';
 import 'base_kalendar_month_picker.dart';
+
 class KalendarMonthPicker extends BaseKalendarPicker {
   KalendarMonthPicker({
     super.key,
@@ -40,6 +41,15 @@ class _KalendarMonthPickerState
     updateCurrentDate();
   }
 
+  @override
+  void updateOptionalDateMap() {
+    var map = <DateTime, bool>{};
+    for (var date in widget.optionalDates) {
+      map[DateTime(date.year, date.month)] = true;
+    }
+    optionalDateMap = map;
+  }
+
   void updateCurrentDate() {
     if (widget.currentDate != null) {
       currentDate = DateUtils.dateOnly(widget.currentDate!);
@@ -57,7 +67,7 @@ class _KalendarMonthPickerState
       return;
     }
     currentDate = isCurrentMonth(date) ? null : date;
-    if (date.month != initDate.month) {
+    if (date.year != initDate.year) {
       onInitDateChange(date);
     } else {
       setState(() {});
@@ -86,8 +96,10 @@ class _KalendarMonthPickerState
   }
 
   Color? getDateForegroundColor(Set<MaterialState> states, DateTime date) {
-    final isAccent =
-        isCurrentMonth(date) || DateUtils.isSameMonth(date, DateTime.now());
+    final isAccent = isCurrentMonth(date);
+    if (DateUtils.isSameMonth(date, DateTime.now())) {
+      return style.accentColor;
+    }
     if (optionalDateMap.isNotEmpty) {
       if (optionalDateMap.containsKey(date)) {
         if (isAccent) return style.accentColor;
