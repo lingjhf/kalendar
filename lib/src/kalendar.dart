@@ -4,6 +4,7 @@ import 'kalendar_date_picker.dart';
 import 'kalendar_date_range_picker.dart';
 import 'kalendar_month_picker.dart';
 import 'kalendar_multiple_date_picker.dart';
+import 'kalendar_multiple_year_picker.dart';
 import 'kalendar_year_picker.dart';
 import 'kelendar_month_range_picker.dart';
 import 'kelendar_multiple_month_picker.dart';
@@ -155,6 +156,19 @@ class Kalendar extends StatelessWidget {
           onChange: onDateChange,
         );
       case KalendarMode.year:
+        if (multiple) {
+          return KalendarMultipleYearPicker(
+            initDate: initDate,
+            minDate: minDate,
+            maxDate: maxDate,
+            optionalDates: optionalDates,
+            disable: disable,
+            readonly: readonly,
+            style: style,
+            currentDates: currentDates,
+            onChange: onMultipleDateChange,
+          );
+        }
         return KalendarYearPicker(
           initDate: initDate,
           minDate: minDate,
