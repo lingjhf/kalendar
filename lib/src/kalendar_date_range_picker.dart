@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'base_kalendar_date_picker.dart';
 import 'extensions.dart';
+
 class KalendarDateRangePicker extends BaseKalendarDatePicker {
   KalendarDateRangePicker({
     super.key,
@@ -164,47 +165,33 @@ class _KalendarDateRangePickerState
 
   @override
   Widget build(BuildContext context) {
-    initStyle(context);
-    return buildContainer(
+    return datesBuilder(
       context,
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 7,
-          mainAxisExtent: 36,
-        ),
-        children: [
-          for (var date in dates)
-            Center(
-              child: Container(
-                width: 36,
-                height: 32,
-                decoration: getDateBoxDecoration(date),
-                child: Stack(children: [
-                  Positioned.fill(
-                    child: Container(
-                      decoration: getStartOrEndDateBoxDecoration(date),
-                    ),
-                  ),
-                  Positioned.fill(
-                      child: TextButton(
-                    style: cellStyle.copyWith(
-                      textStyle: MaterialStateProperty.resolveWith(
-                        (states) => getDateTextStyle(states, date),
-                      ),
-                      foregroundColor: MaterialStateProperty.resolveWith(
-                        (states) => getDateForegroundColor(states, date),
-                      ),
-                      backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => getDateBackground(states, date),
-                      ),
-                    ),
-                    onPressed: () => onSelectDate(date),
-                    child: Text('${date.day}'),
-                  ))
-                ]),
+      (date) => Container(
+        decoration: getDateBoxDecoration(date),
+        child: Stack(children: [
+          Positioned.fill(
+            child: Container(
+              decoration: getStartOrEndDateBoxDecoration(date),
+            ),
+          ),
+          Positioned.fill(
+              child: TextButton(
+            style: cellStyle.copyWith(
+              textStyle: MaterialStateProperty.resolveWith(
+                (states) => getDateTextStyle(states, date),
+              ),
+              foregroundColor: MaterialStateProperty.resolveWith(
+                (states) => getDateForegroundColor(states, date),
+              ),
+              backgroundColor: MaterialStateProperty.resolveWith(
+                (states) => getDateBackground(states, date),
               ),
             ),
-        ],
+            onPressed: () => onSelectDate(date),
+            child: Text('${date.day}'),
+          ))
+        ]),
       ),
     );
   }

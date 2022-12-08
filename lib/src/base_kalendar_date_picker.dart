@@ -28,6 +28,13 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
     extends BaseKalendarPickerState<T> {
   KalendarMode mode = KalendarMode.day;
 
+  //width:36,height:36
+  final SliverGridDelegate gridDelegate =
+      const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 7,
+    mainAxisExtent: 36,
+  );
+
   @override
   void updateDatesWithInitDate(DateTime date) {
     super.updateDatesWithInitDate(date);
@@ -117,5 +124,24 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
           onChange: onYearPickerChange,
         );
     }
+  }
+
+  Widget datesBuilder(
+    BuildContext context,
+    Widget Function(DateTime date) callback,
+  ) {
+    initStyle(context);
+    return buildContainer(
+      context,
+      GridView(
+        gridDelegate: gridDelegate,
+        children: [
+          for (var date in dates)
+            Center(
+              child: SizedBox(width: 36, height: 32, child: callback(date)),
+            )
+        ],
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'base_kalendar_date_picker.dart';
+
 class KalendarMultipleDatePicker extends BaseKalendarDatePicker {
   KalendarMultipleDatePicker({
     super.key,
@@ -121,41 +122,25 @@ class _KalendarMultipleDatePickerState
 
   @override
   Widget build(BuildContext context) {
-    initStyle(context);
-    return buildContainer(
+    return datesBuilder(
       context,
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 7,
-          mainAxisExtent: 36,
+      (date) => TextButton(
+        style: cellStyle.copyWith(
+          textStyle: MaterialStateProperty.resolveWith(
+            (states) => getDateTextStyle(states, date),
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateForegroundColor(states, date),
+          ),
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateBackground(states, date),
+          ),
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) => getDateOverlayColor(states, date),
+          ),
         ),
-        children: [
-          for (var date in dates)
-            Center(
-              child: SizedBox(
-                width: 36,
-                height: 32,
-                child: TextButton(
-                  style: cellStyle.copyWith(
-                    textStyle: MaterialStateProperty.resolveWith(
-                      (states) => getDateTextStyle(states, date),
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) => getDateForegroundColor(states, date),
-                    ),
-                    backgroundColor: MaterialStateProperty.resolveWith(
-                      (states) => getDateBackground(states, date),
-                    ),
-                    overlayColor: MaterialStateProperty.resolveWith(
-                      (states) => getDateOverlayColor(states, date),
-                    ),
-                  ),
-                  onPressed: () => onSelectDate(date),
-                  child: Text('${date.day}'),
-                ),
-              ),
-            ),
-        ],
+        onPressed: () => onSelectDate(date),
+        child: Text('${date.day}'),
       ),
     );
   }
