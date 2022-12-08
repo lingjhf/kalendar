@@ -36,7 +36,7 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
       (style.height - style.toolbarHeight - style.weekBarHeight) / 6,
     );
     gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 6,
+      crossAxisCount: 7,
       mainAxisExtent: cellSize.height,
     );
   }
