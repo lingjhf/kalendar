@@ -39,8 +39,9 @@ class KalendarMonthPickerContainer extends StatelessWidget {
               date: initDate,
               style: style,
               onYearPick: onYearPick,
-              onPrevYear: () => onPrevYear(initDate.subtractYear()),
-              onNextYear: () => onNextYear(initDate.addYear()),
+              onPrevYear: () =>
+                  onPrevYear(DateTime(initDate.subtractYear().year)),
+              onNextYear: () => onNextYear(DateTime(initDate.addYear().year)),
             ),
           ),
         Expanded(child: child)

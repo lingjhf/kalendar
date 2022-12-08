@@ -39,8 +39,9 @@ class KalendarYearPickerContainer extends StatelessWidget {
             child: KalendarYearPickerToolbar(
               dateRange: dateRange,
               style: style,
-              onPrevYear: () => onPrevYear(initDate.subtractYear(10)),
-              onNextYear: () => onNextYear(initDate.addYear(10)),
+              onPrevYear: () =>
+                  onPrevYear(DateTime(initDate.subtractYear(10).year)),
+              onNextYear: () => onNextYear(DateTime(initDate.addYear(10).year)),
             ),
           ),
         Expanded(child: child)

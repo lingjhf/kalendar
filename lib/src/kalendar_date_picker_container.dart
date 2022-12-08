@@ -43,6 +43,24 @@ class KalendarDatePickerContainer extends StatelessWidget {
 
   final ValueChanged<DateTime> onNextYear;
 
+  void _onPrevMonth() {
+    final date = initDate.subtractMonth();
+    onPrevMonth(DateTime(date.year, date.month));
+  }
+
+  void _onNextMonth() {
+    final date = initDate.addMonth();
+    onNextMonth(DateTime(date.year, date.month));
+  }
+
+  void _onPrevYear() {
+    onPrevYear(DateTime(initDate.subtractYear().year));
+  }
+
+  void _onNextYear() {
+    onNextYear(DateTime(initDate.addYear().year));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,10 +73,10 @@ class KalendarDatePickerContainer extends StatelessWidget {
               style: style,
               onMonthPick: onMonthPick,
               onYearPick: onYearPick,
-              onPrevMonth: () => onPrevMonth(initDate.subtractMonth()),
-              onNextMonth: () => onNextMonth(initDate.addMonth()),
-              onPrevYear: () => onPrevYear(initDate.subtractYear()),
-              onNextYear: () => onNextYear(initDate.addYear()),
+              onPrevMonth: _onPrevMonth,
+              onNextMonth: _onNextMonth,
+              onPrevYear: _onPrevYear,
+              onNextYear: _onNextYear,
             ),
           ),
         KalendarWeek(
