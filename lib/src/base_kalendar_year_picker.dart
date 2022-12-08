@@ -35,7 +35,7 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
     this.dates = dates;
   }
 
-  Widget buildContainer(BuildContext context, Widget child) {
+  Widget buildContainer(Widget child) {
     return KalendarPickerContainer(
       style: style,
       disable: widget.disable,
@@ -54,7 +54,6 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
       BuildContext context, Widget Function(DateTime date) callback) {
     initStyle(context);
     return buildContainer(
-      context,
       GridView(gridDelegate: gridDelegate, children: [
         for (var date in dates)
           Center(

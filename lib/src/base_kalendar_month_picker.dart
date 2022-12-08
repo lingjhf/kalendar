@@ -52,7 +52,7 @@ abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
     });
   }
 
-  Widget buildContainer(BuildContext context, Widget child) {
+  Widget buildContainer(Widget child) {
     if (mode == KalendarMode.year) {
       return KalendarYearPicker(
         initDate: initDate,
@@ -81,7 +81,6 @@ abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
       BuildContext context, Widget Function(DateTime date) callback) {
     initStyle(context);
     return buildContainer(
-      context,
       GridView(gridDelegate: gridDelegate, children: [
         for (var date in dates)
           Center(

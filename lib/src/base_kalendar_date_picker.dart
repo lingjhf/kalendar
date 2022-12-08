@@ -86,7 +86,7 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
     });
   }
 
-  Widget buildContainer(BuildContext context, Widget child) {
+  Widget buildContainer(Widget child) {
     switch (mode) {
       case KalendarMode.day:
         return KalendarPickerContainer(
@@ -132,7 +132,6 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
   ) {
     initStyle(context);
     return buildContainer(
-      context,
       GridView(
         gridDelegate: gridDelegate,
         children: [
