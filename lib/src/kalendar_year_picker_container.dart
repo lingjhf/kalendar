@@ -35,7 +35,7 @@ class KalendarYearPickerContainer extends StatelessWidget {
       children: [
         if (!readonly)
           SizedBox(
-            height: 32,
+            height: style.toolbarHeight,
             child: KalendarYearPickerToolbar(
               dateRange: dateRange,
               style: style,

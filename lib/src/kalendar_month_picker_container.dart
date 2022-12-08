@@ -34,7 +34,7 @@ class KalendarMonthPickerContainer extends StatelessWidget {
       children: [
         if (!readonly)
           SizedBox(
-            height: 32,
+            height: style.toolbarHeight,
             child: KalendarMonthPickerToolbar(
               date: initDate,
               style: style,

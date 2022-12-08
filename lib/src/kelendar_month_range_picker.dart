@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'base.dart';
 import 'base_kalendar_month_picker.dart';
 import 'extensions.dart';
+import 'range_painter.dart';
 
 class KalendarMonthRangePicker extends BaseKalendarPicker {
   KalendarMonthRangePicker({
@@ -96,54 +97,6 @@ class _KalendarMonthRangePickerState
     widget.onChange?.call(currentDateRange);
   }
 
-  BoxDecoration? getDateBoxDecoration(DateTime date) {
-    if (currentDateRange == null) return null;
-    if (isStartAndEndDateEqual(date)) {
-      return null;
-    }
-    LinearGradient? gradient;
-    if (date == currentDateRange!.start) {
-      gradient = LinearGradient(
-        colors: [Colors.transparent, widget.style!.accentBackgroundColor],
-        stops: const [0.5, 0.5],
-      );
-    }
-    if (date == currentDateRange!.end) {
-      gradient = LinearGradient(
-        colors: [widget.style!.accentBackgroundColor, Colors.transparent],
-        stops: const [0.5, 0.5],
-      );
-    }
-    return BoxDecoration(
-      color:
-          currentDateRange!.between(date) ? style.accentBackgroundColor : null,
-      gradient: gradient,
-      border:
-          const Border(right: BorderSide(width: 0, color: Colors.transparent)),
-    );
-  }
-
-  BoxDecoration? getStartOrEndDateBoxDecoration(DateTime date) {
-    if (currentDateRange == null) return null;
-    if (isStartAndEndDateEqual(date)) {
-      return null;
-    }
-    LinearGradient? gradient;
-    if (date == currentDateRange!.start) {
-      gradient = LinearGradient(
-        colors: [widget.style!.accentBackgroundColor, Colors.transparent],
-        stops: const [0.5, 0.5],
-      );
-    }
-    if (date == currentDateRange!.end) {
-      gradient = LinearGradient(
-        colors: [Colors.transparent, widget.style!.accentBackgroundColor],
-        stops: const [0.5, 0.5],
-      );
-    }
-    return BoxDecoration(shape: BoxShape.circle, gradient: gradient);
-  }
-
   TextStyle? getDateTextStyle(Set<MaterialState> states, DateTime date) {
     if (isStartOrEndDate(date)) {
       return const TextStyle(
@@ -171,36 +124,90 @@ class _KalendarMonthRangePickerState
     return null;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return datesBuilder(
-      context,
-      (date) => Container(
-        decoration: getDateBoxDecoration(date),
-        child: Stack(children: [
-          Positioned.fill(
-            child: Container(
-              decoration: getStartOrEndDateBoxDecoration(date),
+  Widget buildCell(DateTime date) {
+    return TextButton(
+      style: cellStyle.copyWith(
+        textStyle: MaterialStateProperty.resolveWith(
+          (states) => getDateTextStyle(states, date),
+        ),
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => getDateForegroundColor(states, date),
+        ),
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) => getDateBackground(states, date),
+        ),
+      ),
+      onPressed: () => onSelectDate(date),
+      child: Text('${date.month}'),
+    );
+  }
+
+  Widget buildDates() {
+    final columns = <Widget>[];
+    var rows = <Widget>[];
+    Offset? startOffset;
+    Offset? endOffset;
+    bool shouldPaintRange = false;
+    for (int i = 0; i < dates.length; i++) {
+      final date = dates[i];
+      final rowIndex = i % 4;
+      if (currentDateRange != null) {
+        if (date == currentDateRange!.start) {
+          shouldPaintRange = true;
+          startOffset = Offset(rowIndex * cellSize.width, 0);
+        } else if (date == currentDateRange!.end) {
+          shouldPaintRange = true;
+          endOffset = Offset(rowIndex * cellSize.width, 0);
+        } else if (currentDateRange!.contains(date)) {
+          shouldPaintRange = true;
+        }
+      }
+      rows.add(
+        SizedBox(
+          width: cellSize.width,
+          height: cellSize.height - 10,
+          child: buildCell(date),
+        ),
+      );
+      if (rowIndex == 3) {
+        columns.add(
+          SizedBox(
+            height: cellSize.height,
+            child: Center(
+              child: SizedBox(
+                height: cellSize.height - 10,
+                child: Stack(
+                  children: [
+                    if (shouldPaintRange)
+                      Positioned.fill(
+                        left: 5,
+                        right: 5,
+                        child: DateRangePainter(
+                          start: startOffset,
+                          end: endOffset,
+                          radius: (cellSize.height - 10) / 2,
+                          color: style.accentBackgroundColor,
+                        ),
+                      ),
+                    Positioned.fill(child: Row(children: rows)),
+                  ],
+                ),
+              ),
             ),
           ),
-          Positioned.fill(
-              child: TextButton(
-            style: cellStyle.copyWith(
-              textStyle: MaterialStateProperty.resolveWith(
-                (states) => getDateTextStyle(states, date),
-              ),
-              foregroundColor: MaterialStateProperty.resolveWith(
-                (states) => getDateForegroundColor(states, date),
-              ),
-              backgroundColor: MaterialStateProperty.resolveWith(
-                (states) => getDateBackground(states, date),
-              ),
-            ),
-            onPressed: () => onSelectDate(date),
-            child: Text('${date.month}'),
-          ))
-        ]),
-      ),
-    );
+        );
+        rows = [];
+        shouldPaintRange = false;
+        startOffset = null;
+        endOffset = null;
+      }
+    }
+    return Column(children: columns);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    initStyle(context);
+    return buildContainer(buildDates());
   }
 }

@@ -67,11 +67,16 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
 
   DateTime get initDate => _initDate;
 
+  late Size cellSize;
+
+  late SliverGridDelegate gridDelegate;
+
   @override
   void initState() {
     updateDatesWithInitDate(widget.initDate);
     updateOptionalDateMap();
     updateDateBroundaries();
+    updateCellSize();
     super.initState();
   }
 
@@ -80,6 +85,7 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
     updateDatesWithInitDate(widget.initDate);
     updateOptionalDateMap();
     updateDateBroundaries();
+    updateCellSize();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -87,6 +93,8 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
   void updateDatesWithInitDate(DateTime date) {
     _initDate = date;
   }
+
+  void updateCellSize();
 
   KalendarStyle disableStyle(KalendarStyle style) {
     return style.copyWith(

@@ -9,12 +9,15 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
     extends BaseKalendarPickerState<T> {
   late DateTimeRange yearRange;
 
-  //width:63,height:62
-  final SliverGridDelegate gridDelegate =
-      const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 4,
-    mainAxisExtent: 62,
-  );
+  //default width:63,height:62
+  @override
+  void updateCellSize() {
+    cellSize = Size(style.width / 4, (style.height - style.toolbarHeight) / 4);
+    gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 4,
+      mainAxisExtent: cellSize.height,
+    );
+  }
 
   @override
   void updateDatesWithInitDate(DateTime date) {
@@ -37,6 +40,8 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
 
   Widget buildContainer(Widget child) {
     return KalendarPickerContainer(
+      width: style.width,
+      height: style.height,
       style: style,
       disable: widget.disable,
       child: KalendarYearPickerContainer(
@@ -57,7 +62,11 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
       GridView(gridDelegate: gridDelegate, children: [
         for (var date in dates)
           Center(
-            child: SizedBox(width: 63, height: 52, child: callback(date)),
+            child: SizedBox(
+              width: cellSize.width,
+              height: cellSize.width - 10,
+              child: callback(date),
+            ),
           )
       ]),
     );

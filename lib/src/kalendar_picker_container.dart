@@ -5,10 +5,16 @@ import 'theme.dart';
 class KalendarPickerContainer extends StatelessWidget {
   const KalendarPickerContainer({
     super.key,
+    required this.width,
+    required this.height,
     required this.style,
     required this.child,
     this.disable = false,
   });
+
+  final double width;
+
+  final double height;
 
   final bool disable;
 
@@ -27,11 +33,7 @@ class KalendarPickerContainer extends StatelessWidget {
           borderRadius: style.borderRadius,
         ),
         child: Stack(children: [
-          SizedBox(
-            width: 7 * 36,
-            height: 64 + 6 * 36,
-            child: child,
-          ),
+          SizedBox(width: width, height: height, child: child),
           if (disable)
             const Positioned.fill(
               child: MouseRegion(

@@ -49,7 +49,7 @@ class KalendarDatePickerContainer extends StatelessWidget {
       children: [
         if (!readonly)
           SizedBox(
-            height: 32,
+            height: style.toolbarHeight,
             child: KalendarDatePickerToolbar(
               date: initDate,
               style: style,
@@ -63,10 +63,10 @@ class KalendarDatePickerContainer extends StatelessWidget {
           ),
         KalendarWeek(
           firstDayOfWeek: firstDayOfWeek,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: style.secondaryColor,
+          style: style.copyWith(
+            weekTextStyle: style.weekTextStyle.copyWith(
+              color: style.secondaryColor,
+            ),
           ),
         ),
         Expanded(child: child)

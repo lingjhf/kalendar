@@ -28,12 +28,18 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
     extends BaseKalendarPickerState<T> {
   KalendarMode mode = KalendarMode.day;
 
-  //width:36,height:36
-  final SliverGridDelegate gridDelegate =
-      const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 7,
-    mainAxisExtent: 36,
-  );
+  //default width:36,height:36
+  @override
+  void updateCellSize() {
+    cellSize = Size(
+      style.width / 7,
+      (style.height - style.toolbarHeight - style.weekBarHeight) / 6,
+    );
+    gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 6,
+      mainAxisExtent: cellSize.height,
+    );
+  }
 
   @override
   void updateDatesWithInitDate(DateTime date) {
@@ -90,6 +96,8 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
     switch (mode) {
       case KalendarMode.day:
         return KalendarPickerContainer(
+          width: style.width,
+          height: style.height,
           style: style,
           disable: widget.disable,
           child: KalendarDatePickerContainer(
@@ -137,7 +145,11 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
         children: [
           for (var date in dates)
             Center(
-              child: SizedBox(width: 36, height: 32, child: callback(date)),
+              child: SizedBox(
+                width: cellSize.width,
+                height: cellSize.height - 4,
+                child: callback(date),
+              ),
             )
         ],
       ),
