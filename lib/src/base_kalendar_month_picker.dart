@@ -42,6 +42,21 @@ abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
     optionalDateMap = map;
   }
 
+  @override
+  bool checkDateOutOfBoundaries(DateTime date) {
+    if (widget.minDate != null &&
+        DateTime(date.year, date.month)
+            .isBefore(DateTime(widget.minDate!.year, widget.minDate!.month))) {
+      return true;
+    }
+    if (widget.maxDate != null &&
+        DateTime(date.year, date.month)
+            .isAfter(DateTime(widget.maxDate!.year, widget.maxDate!.month))) {
+      return true;
+    }
+    return false;
+  }
+
   void onYearPick() {
     setState(() {
       mode = KalendarMode.year;
