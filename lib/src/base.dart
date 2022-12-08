@@ -12,20 +12,7 @@ abstract class BaseKalendarPicker extends StatefulWidget {
     this.disable = false,
     this.readonly = false,
     this.style,
-  }) : initDate = initDate ?? DateTime.now() {
-    assert(
-      !(minDate != null && this.initDate.isBefore(minDate!)),
-      'initDate $initDate must be on or after minDate $minDate',
-    );
-    assert(
-      !(maxDate != null && this.initDate.isAfter(maxDate!)),
-      'initDate $initDate must be on or after minDate $maxDate',
-    );
-    assert(
-      !(minDate != null && maxDate != null && minDate!.isAfter(maxDate!)),
-      'minDate $minDate must be on or before maxDate $maxDate',
-    );
-  }
+  }) : initDate = initDate ?? DateTime.now();
 
   //初始化日期，如果没有设置则为今天
   final DateTime initDate;
@@ -58,10 +45,6 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
 
   Map<DateTime, bool> optionalDateMap = {};
 
-  DateTime? minDate;
-
-  DateTime? maxDate;
-
   ButtonStyle cellStyle =
       const ButtonStyle(shape: MaterialStatePropertyAll(CircleBorder()));
 
@@ -75,7 +58,6 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
   void initState() {
     updateDatesWithInitDate(widget.initDate);
     updateOptionalDateMap();
-    updateDateBroundaries();
     updateCellSize();
     super.initState();
   }
@@ -84,7 +66,6 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
   void didUpdateWidget(covariant T oldWidget) {
     updateDatesWithInitDate(widget.initDate);
     updateOptionalDateMap();
-    updateDateBroundaries();
     updateCellSize();
     super.didUpdateWidget(oldWidget);
   }
@@ -139,20 +120,11 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
     optionalDateMap = map;
   }
 
-  void updateDateBroundaries() {
-    if (widget.minDate != null) {
-      minDate = DateUtils.dateOnly(widget.minDate!);
-    }
-    if (widget.maxDate != null) {
-      maxDate = DateUtils.dateOnly(widget.maxDate!);
-    }
-  }
-
   bool checkDateOutOfBoundaries(DateTime date) {
-    if (minDate != null && date.isBefore(minDate!)) {
+    if (widget.minDate != null && date.isBefore(widget.minDate!)) {
       return true;
     }
-    if (maxDate != null && date.isAfter(maxDate!)) {
+    if (widget.maxDate != null && date.isAfter(widget.maxDate!)) {
       return true;
     }
     return false;
