@@ -123,35 +123,25 @@ class _KalendarMultipleYearPickerState
 
   @override
   Widget build(BuildContext context) {
-    initStyle(context);
-    return buildContainer(
+    return datesBuilder(
       context,
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisExtent: 62,
+      (date) => TextButton(
+        style: cellStyle.copyWith(
+          textStyle: MaterialStateProperty.resolveWith(
+            (states) => getDateTextStyle(states, date),
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateForegroundColor(states, date),
+          ),
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateBackground(states, date),
+          ),
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) => getDateOverlayColor(states, date),
+          ),
         ),
-        children: [
-          for (var date in dates)
-            TextButton(
-              style: cellStyle.copyWith(
-                textStyle: MaterialStateProperty.resolveWith(
-                  (states) => getDateTextStyle(states, date),
-                ),
-                foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) => getDateForegroundColor(states, date),
-                ),
-                backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) => getDateBackground(states, date),
-                ),
-                overlayColor: MaterialStateProperty.resolveWith(
-                  (states) => getDateOverlayColor(states, date),
-                ),
-              ),
-              onPressed: () => onSelectYear(date),
-              child: Text('${date.year}'),
-            )
-        ],
+        onPressed: () => onSelectYear(date),
+        child: Text('${date.year}'),
       ),
     );
   }

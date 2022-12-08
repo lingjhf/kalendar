@@ -9,6 +9,13 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
     extends BaseKalendarPickerState<T> {
   late DateTimeRange yearRange;
 
+  //width:63,height:62
+  final SliverGridDelegate gridDelegate =
+      const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 4,
+    mainAxisExtent: 62,
+  );
+
   @override
   void updateDatesWithInitDate(DateTime date) {
     super.updateDatesWithInitDate(date);
@@ -40,6 +47,20 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
         onNextYear: onInitDateChange,
         child: child,
       ),
+    );
+  }
+
+  Widget datesBuilder(
+      BuildContext context, Widget Function(DateTime date) callback) {
+    initStyle(context);
+    return buildContainer(
+      context,
+      GridView(gridDelegate: gridDelegate, children: [
+        for (var date in dates)
+          Center(
+            child: SizedBox(width: 63, height: 52, child: callback(date)),
+          )
+      ]),
     );
   }
 }

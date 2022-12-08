@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'base.dart';
 import 'base_kalendar_year_picker.dart';
 import 'extensions.dart';
+
 class KalendarYearPicker extends BaseKalendarPicker {
   KalendarYearPicker({
     super.key,
@@ -119,35 +120,25 @@ class _KalendarYearPickerState
 
   @override
   Widget build(BuildContext context) {
-    initStyle(context);
-    return buildContainer(
+    return datesBuilder(
       context,
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisExtent: 56,
+      (date) => TextButton(
+        style: cellStyle.copyWith(
+          textStyle: MaterialStateProperty.resolveWith(
+            (states) => getDateTextStyle(states, date),
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateForegroundColor(states, date),
+          ),
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateBackground(states, date),
+          ),
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) => getDateOverlayColor(states, date),
+          ),
         ),
-        children: [
-          for (var date in dates)
-            TextButton(
-              style: cellStyle.copyWith(
-                textStyle: MaterialStateProperty.resolveWith(
-                  (states) => getDateTextStyle(states, date),
-                ),
-                foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) => getDateForegroundColor(states, date),
-                ),
-                backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) => getDateBackground(states, date),
-                ),
-                overlayColor: MaterialStateProperty.resolveWith(
-                  (states) => getDateOverlayColor(states, date),
-                ),
-              ),
-              onPressed: () => onSelectYear(date),
-              child: Text('${date.year}'),
-            )
-        ],
+        onPressed: () => onSelectYear(date),
+        child: Text('${date.year}'),
       ),
     );
   }
