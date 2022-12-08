@@ -171,11 +171,11 @@ class _KalendarMonthRangePickerState
     return null;
   }
 
-  Widget buildCell(DateTime date) {
-    return Center(
-      child: Container(
-        width: 63,
-        height: 52,
+  @override
+  Widget build(BuildContext context) {
+    return datesBuilder(
+      context,
+      (date) => Container(
         decoration: getDateBoxDecoration(date),
         child: Stack(children: [
           Positioned.fill(
@@ -200,28 +200,6 @@ class _KalendarMonthRangePickerState
             child: Text('${date.month}'),
           ))
         ]),
-      ),
-    );
-  }
-
-  Widget buildDates() {
-    for (int i = 0; i < 4; i++) {}
-    return Container();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    initStyle(context);
-    return buildContainer(
-      context,
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisExtent: 62,
-        ),
-        children: [
-          for (var date in dates) buildCell(date),
-        ],
       ),
     );
   }

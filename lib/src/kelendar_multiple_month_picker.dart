@@ -111,41 +111,25 @@ class _KalendarMultipleMonthPickerState
 
   @override
   Widget build(BuildContext context) {
-    initStyle(context);
-    return buildContainer(
+    return datesBuilder(
       context,
-      GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisExtent: 56,
+      (date) => TextButton(
+        style: cellStyle.copyWith(
+          textStyle: MaterialStateProperty.resolveWith(
+            (states) => getDateTextStyle(states, date),
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateForegroundColor(states, date),
+          ),
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) => getDateBackground(states, date),
+          ),
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) => getDateOverlayColor(states, date),
+          ),
         ),
-        children: [
-          for (var date in dates)
-            Center(
-              child: SizedBox(
-                width: 56,
-                height: 52,
-                child: TextButton(
-                  style: cellStyle.copyWith(
-                    textStyle: MaterialStateProperty.resolveWith(
-                      (states) => getDateTextStyle(states, date),
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) => getDateForegroundColor(states, date),
-                    ),
-                    backgroundColor: MaterialStateProperty.resolveWith(
-                      (states) => getDateBackground(states, date),
-                    ),
-                    overlayColor: MaterialStateProperty.resolveWith(
-                      (states) => getDateOverlayColor(states, date),
-                    ),
-                  ),
-                  onPressed: () => onSelectMonth(date),
-                  child: Text('${date.month}'),
-                ),
-              ),
-            )
-        ],
+        onPressed: () => onSelectMonth(date),
+        child: Text('${date.month}'),
       ),
     );
   }
