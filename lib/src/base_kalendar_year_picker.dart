@@ -38,6 +38,17 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
     this.dates = dates;
   }
 
+  @override
+  bool checkDateOutOfBoundaries(DateTime date) {
+    if (widget.minDate != null && date.year < widget.minDate!.year) {
+      return true;
+    }
+    if (widget.maxDate != null && date.year > widget.maxDate!.year) {
+      return true;
+    }
+    return false;
+  }
+
   Widget buildContainer(Widget child) {
     return KalendarPickerContainer(
       width: style.width,
