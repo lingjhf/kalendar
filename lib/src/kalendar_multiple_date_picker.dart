@@ -51,6 +51,7 @@ class _KalendarMultipleDatePickerState
 
   void onSelectDate(DateTime date) {
     if (widget.readonly) return;
+    if (checkDateOutOfBoundaries(date)) return;
     if (optionalDateMap.isNotEmpty && !optionalDateMap.containsKey(date)) {
       return;
     }

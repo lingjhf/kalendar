@@ -77,6 +77,7 @@ class _KalendarMonthRangePickerState
 
   void onSelectDate(DateTime date) {
     if (widget.readonly) return;
+    if (checkDateOutOfBoundaries(date)) return;
     if (startDate == null &&
         currentDateRange != null &&
         currentDateRange!.contains(date)) {

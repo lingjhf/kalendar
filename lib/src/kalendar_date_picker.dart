@@ -54,6 +54,7 @@ class _KalendarDatePicker
   //点击选择日期
   void onSelectDate(DateTime date) {
     if (widget.readonly) return;
+    if (checkDateOutOfBoundaries(date)) return;
     if (optionalDateMap.isNotEmpty && !optionalDateMap.containsKey(date)) {
       return;
     }

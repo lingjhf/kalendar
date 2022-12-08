@@ -52,6 +52,7 @@ class _KalendarMultipleYearPickerState
 
   void onSelectYear(DateTime date) {
     if (widget.readonly) return;
+    if (checkDateOutOfBoundaries(date)) return;
     if (optionalDateMap.isNotEmpty && !optionalDateMap.containsKey(date)) {
       return;
     }
