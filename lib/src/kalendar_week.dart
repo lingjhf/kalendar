@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'theme.dart';
 import 'enums.dart';
+import 'theme.dart';
 
 class KalendarWeek extends StatelessWidget {
   const KalendarWeek({
