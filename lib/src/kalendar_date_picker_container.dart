@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
 import 'enums.dart';
 import 'extensions.dart';
 import 'kalendar_week.dart';
@@ -10,6 +11,7 @@ class KalendarDatePickerContainer extends StatelessWidget {
     super.key,
     required this.initDate,
     required this.firstDayOfWeek,
+    required this.direction,
     required this.style,
     required this.onMonthPick,
     required this.onYearPick,
@@ -26,6 +28,8 @@ class KalendarDatePickerContainer extends StatelessWidget {
   final bool readonly;
 
   final KalendarWeekDay firstDayOfWeek;
+
+  final AxisDirection direction;
 
   final KalendarStyle style;
 
@@ -54,11 +58,13 @@ class KalendarDatePickerContainer extends StatelessWidget {
   }
 
   void _onPrevYear() {
-    onPrevYear(DateTime(initDate.subtractYear().year));
+    final date = initDate.subtractYear();
+    onPrevYear(DateTime(date.year, date.month));
   }
 
   void _onNextYear() {
-    onNextYear(DateTime(initDate.addYear().year));
+    final date = initDate.addYear();
+    onNextYear(DateTime(date.year, date.month));
   }
 
   @override
@@ -70,6 +76,7 @@ class KalendarDatePickerContainer extends StatelessWidget {
             height: style.toolbarHeight,
             child: KalendarDatePickerToolbar(
               date: initDate,
+              direction: direction,
               style: style,
               onMonthPick: onMonthPick,
               onYearPick: onYearPick,
@@ -87,7 +94,12 @@ class KalendarDatePickerContainer extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(child: child)
+        Expanded(
+          child: HorizontalAnimation(
+            direction: direction,
+            child: child,
+          ),
+        )
       ],
     );
   }
@@ -97,6 +109,7 @@ class KalendarDatePickerToolbar extends StatelessWidget {
   const KalendarDatePickerToolbar({
     super.key,
     required this.date,
+    required this.direction,
     required this.style,
     required this.onMonthPick,
     required this.onYearPick,
@@ -107,6 +120,8 @@ class KalendarDatePickerToolbar extends StatelessWidget {
   });
 
   final DateTime date;
+
+  final AxisDirection direction;
 
   final KalendarStyle style;
 
@@ -147,12 +162,16 @@ class KalendarDatePickerToolbar extends StatelessWidget {
           child: const Icon(Icons.keyboard_arrow_left),
         ),
         const SizedBox(width: 4),
-        SizedBox(
-          width: 80,
-          child: TextButton(
-            style: titleButtonSytle,
-            onPressed: onMonthPick,
-            child: Text(date.monthString()),
+        HorizontalAnimation(
+          direction: direction,
+          child: SizedBox(
+            key: ValueKey(date.month),
+            width: 80,
+            child: TextButton(
+              style: titleButtonSytle,
+              onPressed: onMonthPick,
+              child: Text(date.monthString()),
+            ),
           ),
         ),
         const SizedBox(width: 4),
@@ -168,12 +187,16 @@ class KalendarDatePickerToolbar extends StatelessWidget {
           child: const Icon(Icons.keyboard_arrow_left),
         ),
         const SizedBox(width: 4),
-        SizedBox(
-          width: 48,
-          child: TextButton(
-            style: titleButtonSytle,
-            onPressed: onYearPick,
-            child: Text('${date.year}'),
+        HorizontalAnimation(
+          direction: direction,
+          child: SizedBox(
+            key: ValueKey(date.year),
+            width: 48,
+            child: TextButton(
+              style: titleButtonSytle,
+              onPressed: onYearPick,
+              child: Text('${date.year}'),
+            ),
           ),
         ),
         const SizedBox(width: 4),

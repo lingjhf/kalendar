@@ -87,12 +87,13 @@ abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
       style: style,
       disable: widget.disable,
       child: KalendarMonthPickerContainer(
+        direction: direction,
         initDate: initDate,
         style: style,
         onYearPick: onYearPick,
         onPrevYear: onInitDateChange,
         onNextYear: onInitDateChange,
-        child: child,
+        child: SizedBox(key: ValueKey(initDate), child: child),
       ),
     );
   }

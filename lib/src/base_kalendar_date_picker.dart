@@ -103,6 +103,7 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
           child: KalendarDatePickerContainer(
             initDate: initDate,
             firstDayOfWeek: widget.firstDayOfWeek,
+            direction: direction,
             style: style,
             onMonthPick: onMonthPick,
             onYearPick: onYearPick,
@@ -110,7 +111,7 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
             onNextMonth: onInitDateChange,
             onPrevYear: onInitDateChange,
             onNextYear: onInitDateChange,
-            child: child,
+            child: SizedBox(key: ValueKey(initDate), child: child),
           ),
         );
       case KalendarMode.month:
@@ -140,19 +141,16 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
   ) {
     initStyle(context);
     return buildContainer(
-      GridView(
-        gridDelegate: gridDelegate,
-        children: [
-          for (var date in dates)
-            Center(
-              child: SizedBox(
-                width: cellSize.width,
-                height: cellSize.height - 4,
-                child: callback(date),
-              ),
-            )
-        ],
-      ),
+      GridView(gridDelegate: gridDelegate, children: [
+        for (var date in dates)
+          Center(
+            child: SizedBox(
+              width: cellSize.width,
+              height: cellSize.height - 4,
+              child: callback(date),
+            ),
+          )
+      ]),
     );
   }
 }

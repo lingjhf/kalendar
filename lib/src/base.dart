@@ -54,6 +54,8 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
 
   late SliverGridDelegate gridDelegate;
 
+  AxisDirection direction = AxisDirection.left;
+
   @override
   void initState() {
     updateDatesWithInitDate(widget.initDate);
@@ -90,6 +92,11 @@ abstract class BaseKalendarPickerState<T extends BaseKalendarPicker>
   void onInitDateChange(DateTime date) {
     if (checkDateOutOfBoundaries(date)) {
       return;
+    }
+    if (date.isBefore(_initDate)) {
+      direction = AxisDirection.right;
+    } else if (date.isAfter(_initDate)) {
+      direction = AxisDirection.left;
     }
     setState(() {
       updateDatesWithInitDate(date);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
 import 'extensions.dart';
 import 'theme.dart';
 
@@ -8,6 +9,7 @@ class KalendarYearPickerContainer extends StatelessWidget {
     super.key,
     required this.initDate,
     required this.dateRange,
+    required this.direction,
     required this.style,
     required this.onPrevYear,
     required this.onNextYear,
@@ -20,6 +22,8 @@ class KalendarYearPickerContainer extends StatelessWidget {
   final DateTimeRange dateRange;
 
   final bool readonly;
+
+  final AxisDirection direction;
 
   final KalendarStyle style;
 
@@ -38,13 +42,19 @@ class KalendarYearPickerContainer extends StatelessWidget {
             height: style.toolbarHeight,
             child: KalendarYearPickerToolbar(
               dateRange: dateRange,
+              direction: direction,
               style: style,
               onPrevYear: () =>
                   onPrevYear(DateTime(initDate.subtractYear(10).year)),
               onNextYear: () => onNextYear(DateTime(initDate.addYear(10).year)),
             ),
           ),
-        Expanded(child: child)
+        Expanded(
+          child: HorizontalAnimation(
+            direction: direction,
+            child: child,
+          ),
+        )
       ],
     );
   }
@@ -54,12 +64,15 @@ class KalendarYearPickerToolbar extends StatelessWidget {
   const KalendarYearPickerToolbar({
     super.key,
     required this.dateRange,
+    required this.direction,
     required this.style,
     required this.onPrevYear,
     required this.onNextYear,
   });
 
   final DateTimeRange dateRange;
+
+  final AxisDirection direction;
 
   final KalendarStyle style;
 
@@ -90,9 +103,13 @@ class KalendarYearPickerToolbar extends StatelessWidget {
           child: const Icon(Icons.keyboard_arrow_left),
         ),
         const Spacer(),
-        Text(
-          '${dateRange.start.year} - ${dateRange.end.year}',
-          style: titleStyle,
+        HorizontalAnimation(
+          direction: direction,
+          child: Text(
+            '${dateRange.start.year} - ${dateRange.end.year}',
+            key: ValueKey(dateRange),
+            style: titleStyle,
+          ),
         ),
         const Spacer(),
         TextButton(

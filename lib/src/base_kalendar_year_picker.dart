@@ -58,10 +58,11 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
       child: KalendarYearPickerContainer(
         initDate: initDate,
         dateRange: yearRange,
+        direction: direction,
         style: style,
         onPrevYear: onInitDateChange,
         onNextYear: onInitDateChange,
-        child: child,
+        child: SizedBox(key: ValueKey(initDate), child: child),
       ),
     );
   }

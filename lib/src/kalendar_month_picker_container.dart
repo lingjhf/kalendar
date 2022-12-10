@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
 import 'extensions.dart';
 import 'theme.dart';
 
@@ -7,6 +8,7 @@ class KalendarMonthPickerContainer extends StatelessWidget {
   const KalendarMonthPickerContainer({
     super.key,
     required this.initDate,
+    required this.direction,
     required this.style,
     required this.onYearPick,
     required this.onPrevYear,
@@ -17,6 +19,8 @@ class KalendarMonthPickerContainer extends StatelessWidget {
   final DateTime initDate;
 
   final bool readonly;
+
+  final AxisDirection direction;
 
   final KalendarStyle style;
 
@@ -37,6 +41,7 @@ class KalendarMonthPickerContainer extends StatelessWidget {
             height: style.toolbarHeight,
             child: KalendarMonthPickerToolbar(
               date: initDate,
+              direction: direction,
               style: style,
               onYearPick: onYearPick,
               onPrevYear: () =>
@@ -44,7 +49,12 @@ class KalendarMonthPickerContainer extends StatelessWidget {
               onNextYear: () => onNextYear(DateTime(initDate.addYear().year)),
             ),
           ),
-        Expanded(child: child)
+        Expanded(
+          child: HorizontalAnimation(
+            direction: direction,
+            child: child,
+          ),
+        )
       ],
     );
   }
@@ -54,6 +64,7 @@ class KalendarMonthPickerToolbar extends StatelessWidget {
   const KalendarMonthPickerToolbar({
     super.key,
     required this.date,
+    required this.direction,
     required this.style,
     required this.onYearPick,
     required this.onPrevYear,
@@ -61,6 +72,8 @@ class KalendarMonthPickerToolbar extends StatelessWidget {
   });
 
   final DateTime date;
+
+  final AxisDirection direction;
 
   final KalendarStyle style;
 
@@ -91,10 +104,14 @@ class KalendarMonthPickerToolbar extends StatelessWidget {
           child: const Icon(Icons.keyboard_arrow_left),
         ),
         const Spacer(),
-        TextButton(
-          style: titleButtonStyle,
-          onPressed: onYearPick,
-          child: Text('${date.year}'),
+        HorizontalAnimation(
+          direction: direction,
+          child: TextButton(
+            key: ValueKey(date.year),
+            style: titleButtonStyle,
+            onPressed: onYearPick,
+            child: Text('${date.year}'),
+          ),
         ),
         const Spacer(),
         TextButton(
