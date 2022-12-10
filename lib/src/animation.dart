@@ -37,7 +37,8 @@ class SlideTransitionDirection extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     final position = listenable as Animation<double>;
-    Offset offset = _tween.evaluate(position);
+    Offset offset =
+        _tween.chain(CurveTween(curve: Curves.easeOut)).evaluate(position);
     if (position.status == AnimationStatus.reverse) {
       switch (direction) {
         case AxisDirection.up:
