@@ -92,3 +92,26 @@ class HorizontalAnimation extends StatelessWidget {
     );
   }
 }
+
+class VisibilityAnimation extends StatelessWidget {
+  const VisibilityAnimation({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, animation) {
+        final tween = Tween<double>(begin: 0, end: 1).chain(
+          CurveTween(curve: Curves.easeOut),
+        );
+        return FadeTransition(
+          opacity: tween.animate(animation),
+          child: child,
+        );
+      },
+      child: child,
+    );
+  }
+}
