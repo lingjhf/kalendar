@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
 import 'base.dart';
 import 'enums.dart';
 import 'kalendar_date_picker_container.dart';
@@ -93,9 +94,10 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
   }
 
   Widget buildContainer(Widget child) {
+    late Widget container;
     switch (mode) {
       case KalendarMode.day:
-        return KalendarPickerContainer(
+        container = KalendarPickerContainer(
           width: style.width,
           height: style.height,
           style: style,
@@ -114,8 +116,9 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
             child: SizedBox(key: ValueKey(initDate), child: child),
           ),
         );
+        break;
       case KalendarMode.month:
-        return KalendarMonthPicker(
+        container = KalendarMonthPicker(
           initDate: initDate,
           minDate: widget.minDate,
           maxDate: widget.maxDate,
@@ -123,8 +126,9 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
           style: widget.style,
           onChange: onMonthPickerChange,
         );
+        break;
       case KalendarMode.year:
-        return KalendarYearPicker(
+        container = KalendarYearPicker(
           initDate: initDate,
           minDate: widget.minDate,
           maxDate: widget.maxDate,
@@ -132,7 +136,10 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
           style: widget.style,
           onChange: onYearPickerChange,
         );
+        break;
     }
+
+    return VisibilityAnimation(child: container);
   }
 
   Widget datesBuilder(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
 import 'base.dart';
 import 'enums.dart';
 import 'kalendar_month_picker_container.dart';
@@ -71,47 +72,65 @@ abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
   }
 
   Widget buildContainer(Widget child) {
-    if (mode == KalendarMode.year) {
-      return KalendarYearPicker(
-        initDate: initDate,
-        minDate: widget.minDate,
-        maxDate: widget.maxDate,
-        optionalDates: widget.optionalDates,
-        style: widget.style,
-        onChange: onYearPickerChange,
-      );
+    late Widget container;
+    switch (mode) {
+      case KalendarMode.year:
+        container = KalendarYearPicker(
+          initDate: initDate,
+          minDate: widget.minDate,
+          maxDate: widget.maxDate,
+          optionalDates: widget.optionalDates,
+          style: widget.style,
+          onChange: onYearPickerChange,
+        );
+
+        break;
+
+      default:
+        container = KalendarPickerContainer(
+          width: style.width,
+          height: style.height,
+          style: style,
+          disable: widget.disable,
+          child: KalendarMonthPickerContainer(
+            direction: direction,
+            initDate: initDate,
+            style: style,
+            onYearPick: onYearPick,
+            onPrevYear: onInitDateChange,
+            onNextYear: onInitDateChange,
+            child: SizedBox(key: ValueKey(initDate), child: child),
+          ),
+        );
+        break;
     }
-    return KalendarPickerContainer(
-      width: style.width,
-      height: style.height,
-      style: style,
-      disable: widget.disable,
-      child: KalendarMonthPickerContainer(
-        direction: direction,
-        initDate: initDate,
-        style: style,
-        onYearPick: onYearPick,
-        onPrevYear: onInitDateChange,
-        onNextYear: onInitDateChange,
-        child: SizedBox(key: ValueKey(initDate), child: child),
-      ),
-    );
+
+    return VisibilityAnimation(child: container);
   }
 
   Widget datesBuilder(
       BuildContext context, Widget Function(DateTime date) callback) {
     initStyle(context);
-    return buildContainer(
-      GridView(gridDelegate: gridDelegate, children: [
-        for (var date in dates)
-          Center(
-            child: SizedBox(
-              width: cellSize.width,
-              height: cellSize.height - 10,
-              child: callback(date),
-            ),
-          )
-      ]),
-    );
+    var rows = <Widget>[];
+    var columns = <Widget>[];
+    for (int i = 0; i < dates.length; i++) {
+      var date = dates[i];
+      rows.add(SizedBox(
+        width: cellSize.width,
+        height: cellSize.height,
+        child: Center(
+          child: SizedBox(
+            width: cellSize.width,
+            height: cellSize.height - 10,
+            child: callback(date),
+          ),
+        ),
+      ));
+      if (i % 4 == 3) {
+        columns.add(Row(children: rows));
+        rows = [];
+      }
+    }
+    return buildContainer(Column(children: columns));
   }
 }

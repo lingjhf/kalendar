@@ -70,17 +70,26 @@ abstract class BaseKalendarYearPickerState<T extends BaseKalendarPicker>
   Widget datesBuilder(
       BuildContext context, Widget Function(DateTime date) callback) {
     initStyle(context);
-    return buildContainer(
-      GridView(gridDelegate: gridDelegate, children: [
-        for (var date in dates)
-          Center(
-            child: SizedBox(
-              width: cellSize.width,
-              height: cellSize.width - 10,
-              child: callback(date),
-            ),
-          )
-      ]),
-    );
+    var rows = <Widget>[];
+    var columns = <Widget>[];
+    for (int i = 0; i < dates.length; i++) {
+      var date = dates[i];
+      rows.add(SizedBox(
+        width: cellSize.width,
+        height: cellSize.height,
+        child: Center(
+          child: SizedBox(
+            width: cellSize.width,
+            height: cellSize.height - 10,
+            child: callback(date),
+          ),
+        ),
+      ));
+      if (i % 4 == 3) {
+        columns.add(Row(children: rows));
+        rows = [];
+      }
+    }
+    return buildContainer(Column(children: columns));
   }
 }
