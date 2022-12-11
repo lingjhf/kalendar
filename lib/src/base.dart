@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'localization.dart';
 import 'theme.dart';
 
 abstract class BaseKalendarPicker extends StatefulWidget {
@@ -11,6 +12,10 @@ abstract class BaseKalendarPicker extends StatefulWidget {
     this.optionalDates = const [],
     this.disable = false,
     this.readonly = false,
+    this.monthLocal = const KalendarMonthLocal(),
+    this.monthShortLocal = const KalendarMonthShortLocal(),
+    this.weekLocal = const KalendarWeekLocal(),
+    this.weekShortLocal = const KalendarWeekShortLocal(),
     this.style,
   }) : initDate = initDate ?? DateTime.now();
 
@@ -31,6 +36,14 @@ abstract class BaseKalendarPicker extends StatefulWidget {
 
   //只读日历
   final bool readonly;
+
+  final KalendarMonthLocal monthLocal;
+
+  final KalendarMonthLocal monthShortLocal;
+
+  final KalendarWeekLocal weekLocal;
+
+  final KalendarWeekLocal weekShortLocal;
 
   final KalendarStyle? style;
 }

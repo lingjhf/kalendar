@@ -4,6 +4,7 @@ import 'animation.dart';
 import 'enums.dart';
 import 'extensions.dart';
 import 'kalendar_week.dart';
+import 'localization.dart';
 import 'theme.dart';
 
 class KalendarDatePickerContainer extends StatelessWidget {
@@ -12,6 +13,8 @@ class KalendarDatePickerContainer extends StatelessWidget {
     required this.initDate,
     required this.firstDayOfWeek,
     required this.direction,
+    required this.monthLocal,
+    required this.weekShortLocal,
     required this.style,
     required this.onMonthPick,
     required this.onYearPick,
@@ -27,9 +30,13 @@ class KalendarDatePickerContainer extends StatelessWidget {
 
   final bool readonly;
 
-  final KalendarWeekDay firstDayOfWeek;
+  final KalendarWeekDays firstDayOfWeek;
 
   final AxisDirection direction;
+
+  final KalendarMonthLocal monthLocal;
+
+  final KalendarWeekLocal weekShortLocal;
 
   final KalendarStyle style;
 
@@ -77,6 +84,7 @@ class KalendarDatePickerContainer extends StatelessWidget {
             child: KalendarDatePickerToolbar(
               date: initDate,
               direction: direction,
+              monthLocal: monthLocal,
               style: style,
               onMonthPick: onMonthPick,
               onYearPick: onYearPick,
@@ -87,6 +95,7 @@ class KalendarDatePickerContainer extends StatelessWidget {
             ),
           ),
         KalendarWeek(
+          weekShortLocal: weekShortLocal,
           firstDayOfWeek: firstDayOfWeek,
           style: style.copyWith(
             weekTextStyle: style.weekTextStyle.copyWith(
@@ -110,6 +119,7 @@ class KalendarDatePickerToolbar extends StatelessWidget {
     super.key,
     required this.date,
     required this.direction,
+    required this.monthLocal,
     required this.style,
     required this.onMonthPick,
     required this.onYearPick,
@@ -122,6 +132,8 @@ class KalendarDatePickerToolbar extends StatelessWidget {
   final DateTime date;
 
   final AxisDirection direction;
+
+  final KalendarMonthLocal monthLocal;
 
   final KalendarStyle style;
 
@@ -170,7 +182,7 @@ class KalendarDatePickerToolbar extends StatelessWidget {
             child: TextButton(
               style: titleButtonSytle,
               onPressed: onMonthPick,
-              child: Text(date.monthString()),
+              child: Text(monthLocal.getLocalName(date.month)),
             ),
           ),
         ),

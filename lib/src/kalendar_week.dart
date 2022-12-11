@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 
 import 'enums.dart';
+import 'localization.dart';
 import 'theme.dart';
 
 class KalendarWeek extends StatelessWidget {
   const KalendarWeek({
     super.key,
+    required this.weekShortLocal,
     required this.style,
-    this.firstDayOfWeek = KalendarWeekDay.sunday,
+    this.firstDayOfWeek = KalendarWeekDays.sunday,
   });
 
   //todo一个星期的开始
-  final KalendarWeekDay firstDayOfWeek;
+  final KalendarWeekDays firstDayOfWeek;
+
+  final KalendarWeekLocal weekShortLocal;
 
   final KalendarStyle style;
 
   @override
   Widget build(BuildContext context) {
-    var values = KalendarWeekDay.values.toList();
+    var values = KalendarWeekDays.values.toList();
     final index = values.indexOf(firstDayOfWeek);
     final weekDays = [
-      ...values.sublist(index).map((e) =>
-          '${e.name.substring(0, 1).toUpperCase()}${e.name.substring(1, 3)}'),
-      ...values.sublist(0, index).map((e) =>
-          '${e.name.substring(0, 1).toUpperCase()}${e.name.substring(1, 3)}')
+      ...values.sublist(index).map((e) => weekShortLocal.getLocalName(e.value)),
+      ...values
+          .sublist(0, index)
+          .map((e) => weekShortLocal.getLocalName(e.value))
     ];
     return DefaultTextStyle(
       style: style.weekTextStyle,

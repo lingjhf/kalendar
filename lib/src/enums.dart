@@ -4,18 +4,16 @@ enum KalendarMode {
   year,
 }
 
-enum KalendarWeekDay {
-  monday(value: DateTime.monday, name: 'monday'),
-  tuesday(value: DateTime.tuesday, name: 'tuesday'),
-  wednesday(value: DateTime.wednesday, name: 'wednesday'),
-  thursday(value: DateTime.thursday, name: 'thursday'),
-  friday(value: DateTime.friday, name: 'friday'),
-  saturday(value: DateTime.saturday, name: 'saturday'),
-  sunday(value: DateTime.sunday, name: 'sunday');
+enum KalendarWeekDays {
+  monday(value: DateTime.monday),
+  tuesday(value: DateTime.tuesday),
+  wednesday(value: DateTime.wednesday),
+  thursday(value: DateTime.thursday),
+  friday(value: DateTime.friday),
+  saturday(value: DateTime.saturday),
+  sunday(value: DateTime.sunday);
 
-  const KalendarWeekDay({required this.value, required this.name});
+  const KalendarWeekDays({required this.value});
 
   final int value;
-
-  final String name;
 }

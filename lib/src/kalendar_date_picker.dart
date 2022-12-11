@@ -18,12 +18,16 @@ abstract class BaseKalendarDatePicker extends BaseKalendarPicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthLocal,
+    super.monthShortLocal,
+    super.weekLocal,
+    super.weekShortLocal,
     super.style,
-    this.firstDayOfWeek = KalendarWeekDay.sunday,
+    this.firstDayOfWeek = KalendarWeekDays.sunday,
   });
 
   //可以设计一个星期的开始是星期几，默认为星期日
-  final KalendarWeekDay firstDayOfWeek;
+  final KalendarWeekDays firstDayOfWeek;
 }
 
 abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
@@ -107,6 +111,8 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
             initDate: initDate,
             firstDayOfWeek: widget.firstDayOfWeek,
             direction: direction,
+            monthLocal: widget.monthLocal,
+            weekShortLocal: widget.weekShortLocal,
             style: style,
             onMonthPick: onMonthPick,
             onYearPick: onYearPick,
@@ -124,6 +130,7 @@ abstract class BaseKalendarDatePickerState<T extends BaseKalendarDatePicker>
           minDate: widget.minDate,
           maxDate: widget.maxDate,
           optionalDates: widget.optionalDates,
+          monthShortLocal: widget.monthShortLocal,
           style: widget.style,
           onChange: onMonthPickerChange,
         );
@@ -172,6 +179,10 @@ class KalendarDatePicker extends BaseKalendarDatePicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthLocal,
+    super.monthShortLocal,
+    super.weekLocal,
+    super.weekShortLocal,
     super.style,
     super.firstDayOfWeek,
     this.currentDate,
@@ -316,6 +327,10 @@ class KalendarMultipleDatePicker extends BaseKalendarDatePicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthLocal,
+    super.monthShortLocal,
+    super.weekLocal,
+    super.weekShortLocal,
     super.style,
     super.firstDayOfWeek,
     this.currentDates = const [],
@@ -461,6 +476,10 @@ class KalendarDateRangePicker extends BaseKalendarDatePicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthLocal,
+    super.monthShortLocal,
+    super.weekLocal,
+    super.weekShortLocal,
     super.style,
     super.firstDayOfWeek,
     this.currentDateRange,

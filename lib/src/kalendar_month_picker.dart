@@ -8,6 +8,7 @@ import 'kalendar_month_picker_container.dart';
 import 'kalendar_picker_container.dart';
 import 'kalendar_year_picker.dart';
 import 'range_painter.dart';
+
 abstract class BaseKalendarMonthPickerState<T extends BaseKalendarPicker>
     extends BaseKalendarPickerState<T> {
   KalendarMode mode = KalendarMode.day;
@@ -145,6 +146,7 @@ class KalendarMonthPicker extends BaseKalendarPicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthShortLocal,
     super.style,
     this.currentDate,
     this.onChange,
@@ -275,7 +277,7 @@ class _KalendarMonthPickerState
           ),
         ),
         onPressed: () => onSelectMonth(date),
-        child: Text('${date.month}'),
+        child: Text(widget.monthShortLocal.getLocalName(date.month)),
       ),
     );
   }
@@ -290,6 +292,7 @@ class KalendarMultipleMonthPicker extends BaseKalendarPicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthShortLocal,
     super.style,
     this.currentDates = const [],
     this.onChange,
@@ -408,14 +411,11 @@ class _KalendarMultipleMonthPickerState
           ),
         ),
         onPressed: () => onSelectMonth(date),
-        child: Text('${date.month}'),
+        child: Text(widget.monthShortLocal.getLocalName(date.month)),
       ),
     );
   }
 }
-
-
-
 
 class KalendarMonthRangePicker extends BaseKalendarPicker {
   KalendarMonthRangePicker({
@@ -426,6 +426,7 @@ class KalendarMonthRangePicker extends BaseKalendarPicker {
     super.optionalDates,
     super.disable,
     super.readonly,
+    super.monthShortLocal,
     super.style,
     this.currentDateRange,
     this.onChange,
@@ -551,7 +552,7 @@ class _KalendarMonthRangePickerState
         ),
       ),
       onPressed: () => onSelectDate(date),
-      child: Text('${date.month}'),
+      child: Text(widget.monthShortLocal.getLocalName(date.month)),
     );
   }
 

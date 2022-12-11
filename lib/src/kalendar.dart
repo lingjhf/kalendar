@@ -4,6 +4,7 @@ import 'enums.dart';
 import 'kalendar_date_picker.dart';
 import 'kalendar_month_picker.dart';
 import 'kalendar_year_picker.dart';
+import 'localization.dart';
 import 'theme.dart';
 
 class Kalendar extends StatelessWidget {
@@ -18,7 +19,11 @@ class Kalendar extends StatelessWidget {
     this.optionalDates = const [],
     this.disable = false,
     this.readonly = false,
-    this.firstDayOfWeek = KalendarWeekDay.sunday,
+    this.firstDayOfWeek = KalendarWeekDays.sunday,
+    this.monthLocal = const KalendarMonthLocal(),
+    this.monthShortLocal = const KalendarMonthShortLocal(),
+    this.weekLocal = const KalendarWeekLocal(),
+    this.weekShortLocal = const KalendarWeekShortLocal(),
     this.style,
     this.currentDate,
     this.currentDateRange,
@@ -52,7 +57,15 @@ class Kalendar extends StatelessWidget {
   //只读日历
   final bool readonly;
 
-  final KalendarWeekDay firstDayOfWeek;
+  final KalendarWeekDays firstDayOfWeek;
+
+  final KalendarMonthLocal monthLocal;
+
+  final KalendarMonthLocal monthShortLocal;
+
+  final KalendarWeekLocal weekLocal;
+
+  final KalendarWeekLocal weekShortLocal;
 
   final KalendarStyle? style;
 
@@ -80,6 +93,10 @@ class Kalendar extends StatelessWidget {
             optionalDates: optionalDates,
             disable: disable,
             readonly: readonly,
+            monthLocal: monthLocal,
+            monthShortLocal: monthShortLocal,
+            weekLocal: weekLocal,
+            weekShortLocal: weekShortLocal,
             style: style,
             firstDayOfWeek: firstDayOfWeek,
             currentDates: currentDates,
@@ -94,6 +111,10 @@ class Kalendar extends StatelessWidget {
             optionalDates: optionalDates,
             disable: disable,
             readonly: readonly,
+            monthLocal: monthLocal,
+            monthShortLocal: monthShortLocal,
+            weekLocal: weekLocal,
+            weekShortLocal: weekShortLocal,
             style: style,
             firstDayOfWeek: firstDayOfWeek,
             currentDateRange: currentDateRange,
@@ -107,6 +128,10 @@ class Kalendar extends StatelessWidget {
           optionalDates: optionalDates,
           disable: disable,
           readonly: readonly,
+          monthLocal: monthLocal,
+          monthShortLocal: monthShortLocal,
+          weekLocal: weekLocal,
+          weekShortLocal: weekShortLocal,
           style: style,
           firstDayOfWeek: firstDayOfWeek,
           currentDate: currentDate,
@@ -121,6 +146,7 @@ class Kalendar extends StatelessWidget {
             optionalDates: optionalDates,
             disable: disable,
             readonly: readonly,
+            monthShortLocal: monthShortLocal,
             style: style,
             currentDates: currentDates,
             onChange: onMultipleDateChange,
@@ -134,6 +160,7 @@ class Kalendar extends StatelessWidget {
             optionalDates: optionalDates,
             disable: disable,
             readonly: readonly,
+            monthShortLocal: monthShortLocal,
             style: style,
             currentDateRange: currentDateRange,
             onChange: onDateRangeChange,
@@ -146,6 +173,7 @@ class Kalendar extends StatelessWidget {
           optionalDates: optionalDates,
           disable: disable,
           readonly: readonly,
+          monthShortLocal: monthShortLocal,
           style: style,
           currentDate: currentDate,
           onChange: onDateChange,
