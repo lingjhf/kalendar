@@ -17,7 +17,7 @@ abstract class BaseKalendarPicker extends StatefulWidget {
     this.weekLocal = const KalendarWeekLocal(),
     this.weekShortLocal = const KalendarWeekShortLocal(),
     this.style,
-  }) : initDate = initDate ?? DateTime.now();
+  }) : initDate = initDate ?? DateUtils.dateOnly(DateTime.now());
 
   //初始化日期，如果没有设置则为今天
   final DateTime initDate;
