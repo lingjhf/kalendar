@@ -1,4 +1,4 @@
-## Getting started
+![image](https://bitbucket.org/lingj/kalendar/raw/7b64d33aff49d4e857261fb738771f34cd0eb429/doc/assets/calendar.png)
 
 
 ## Install
